@@ -157,9 +157,9 @@ export const translations = {
       info: {
         title: "Contact Information",
         email: "info@jahonyuklari.com",
-        phone: "+998 90 123 45 67",
+        phone: "+998 33 303 93 53",
         address: "Tashkent, Uzbekistan",
-        telegram: "@jahonyuklari_bot",
+        telegram: "@jahonyuklari",
       },
     },
     footer: {
@@ -329,9 +329,9 @@ export const translations = {
       info: {
         title: "Aloqa Ma'lumotlari",
         email: "info@jahonyuklari.com",
-        phone: "+998 90 123 45 67",
+        phone: "+998 33 303 93 53",
         address: "Toshkent, O'zbekiston",
-        telegram: "@jahonyuklari_bot",
+        telegram: "@JahonYuklari",
       },
     },
     footer: {
@@ -498,9 +498,9 @@ export const translations = {
       info: {
         title: "Контактная Информация",
         email: "info@jahonyuklari.com",
-        phone: "+998 90 123 45 67",
+        phone: "+998 33 303 93 53",
         address: "Ташкент, Узбекистан",
-        telegram: "@jahonyuklari_bot",
+        telegram: "@jahonyuklari",
       },
     },
     footer: {

@@ -10,7 +10,6 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Jahon Yuklari - AI-Powered Logistics Automation",
   description: "Smartly monitor, manage, and automate your logistics operations with AI across the CIS region.",
-  generator: "v0.app",
   icons: {
     icon: "/favicon.svg",
   },
