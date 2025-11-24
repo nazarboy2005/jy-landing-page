@@ -1,30 +1,47 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { motion } from "framer-motion"
-import { Bot, LayoutDashboard, ArrowRight, Zap, Users, TrendingUp, Moon, Sun, Languages, Radio } from "lucide-react"
-import { useState, useEffect } from "react"
-import { translations, type Language } from "@/lib/translations"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import {
+  Bot,
+  LayoutDashboard,
+  ArrowRight,
+  Zap,
+  Users,
+  TrendingUp,
+  Moon,
+  Sun,
+  Languages,
+  Radio,
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import { translations, type Language } from "@/lib/translations";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function LandingPage() {
-  const [language, setLanguage] = useState<Language>("en")
-  const [theme, setTheme] = useState<"light" | "dark">("dark")
+  const [language, setLanguage] = useState<Language>("en");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [honeypot, setHoneypot] = useState("");
 
-  const t = translations[language]
+  const t = translations[language];
 
   useEffect(() => {
     if (theme === "dark") {
-      document.documentElement.classList.add("dark")
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark")
+      document.documentElement.classList.remove("dark");
     }
-  }, [theme])
+  }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"))
-  }
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   const features = [
     {
@@ -52,14 +69,28 @@ export default function LandingPage() {
       title: t.features.adminDashboard.title,
       description: t.features.adminDashboard.description,
     },
-  ]
+  ];
 
   const stats = [
     { value: "2.3M+", label: t.traction.stats.cargoAds },
     { value: "2", label: t.traction.stats.timeToScale },
     { value: "2406", label: t.traction.stats.activeUsers },
     { value: "47", label: t.traction.stats.companies },
-  ]
+  ];
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Honeypot validation - reject if filled
+    if (honeypot) {
+      console.warn("Bot submission detected");
+      return;
+    }
+
+    // Continue with normal form submission
+    console.log("Form submitted successfully");
+    // Add your actual form submission logic here
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -73,7 +104,8 @@ export default function LandingPage() {
               className="flex items-center gap-2"
             >
               <div className="text-2xl font-bold">
-                <span className="text-foreground">JAHON</span> <span className="text-primary">YUKLARI</span>
+                <span className="text-foreground">JAHON</span>{" "}
+                <span className="text-primary">YUKLARI</span>
               </div>
             </motion.div>
             <motion.div
@@ -82,26 +114,46 @@ export default function LandingPage() {
               className="flex items-center gap-4"
             >
               <div className="hidden md:flex items-center gap-6">
-                <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#features"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   {t.nav.features}
                 </a>
-                <a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#stats"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   {t.nav.traction}
                 </a>
-                <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#about"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   {t.nav.about}
                 </a>
                 <a
                   href="#testimonials"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {language === "en" ? "Testimonials" : language === "uz" ? "Fikrlar" : "Отзывы"}
+                  {language === "en"
+                    ? "Testimonials"
+                    : language === "uz"
+                    ? "Fikrlar"
+                    : "Отзывы"}
                 </a>
-                <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#contact"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   {t.nav.contact}
                 </a>
                 <Button variant="outline" size="sm" asChild>
-                  <a href="https://t.me/Jahonyuklari" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://t.me/Jahonyuklari"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {t.nav.getStarted}
                   </a>
                 </Button>
@@ -114,14 +166,29 @@ export default function LandingPage() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setLanguage("en")}>English</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLanguage("uz")}>O'zbek</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLanguage("ru")}>Русский</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage("en")}>
+                    English
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage("uz")}>
+                    O'zbek
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage("ru")}>
+                    Русский
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9">
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="h-9 w-9"
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
               </Button>
             </motion.div>
           </div>
@@ -129,7 +196,10 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative pt-32 pb-20 sm:pt-40 sm:pb-32 overflow-hidden">
+      <section
+        id="hero"
+        className="relative pt-32 pb-20 sm:pt-40 sm:pb-32 overflow-hidden"
+      >
         {/* Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
@@ -166,7 +236,8 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl text-balance"
             >
-              {t.hero.title} <span className="text-primary">{t.hero.titleHighlight}</span>
+              {t.hero.title}{" "}
+              <span className="text-primary">{t.hero.titleHighlight}</span>
             </motion.h1>
 
             <motion.p
@@ -185,13 +256,21 @@ export default function LandingPage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Button size="lg" className="group" asChild>
-                <a href="https://t.me/Jahonyuklari" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://t.me/Jahonyuklari"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {t.hero.earlyAccess}
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="https://t.me/Jahonyuklari" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://t.me/Jahonyuklari"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {t.hero.contactUs}
                 </a>
               </Button>
@@ -213,7 +292,9 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4 text-balance">
               {t.features.title}
             </h2>
-            <p className="text-lg text-muted-foreground text-pretty">{t.features.subtitle}</p>
+            <p className="text-lg text-muted-foreground text-pretty">
+              {t.features.subtitle}
+            </p>
           </motion.div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -229,8 +310,12 @@ export default function LandingPage() {
                   <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <feature.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold text-card-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground text-pretty">{feature.description}</p>
+                  <h3 className="mb-2 text-xl font-semibold text-card-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground text-pretty">
+                    {feature.description}
+                  </p>
                 </Card>
               </motion.div>
             ))}
@@ -260,7 +345,9 @@ export default function LandingPage() {
                 <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4 text-balance">
                   {t.traction.title}
                 </h2>
-                <p className="text-lg text-muted-foreground mb-8 text-pretty">{t.traction.subtitle}</p>
+                <p className="text-lg text-muted-foreground mb-8 text-pretty">
+                  {t.traction.subtitle}
+                </p>
 
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                   {stats.map((stat, index) => (
@@ -272,8 +359,12 @@ export default function LandingPage() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="text-center"
                     >
-                      <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                      <div className="text-sm text-muted-foreground">{stat.label}</div>
+                      <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">
+                        {stat.value}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {stat.label}
+                      </div>
                     </motion.div>
                   ))}
                 </div>
@@ -296,7 +387,9 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4 text-balance">
               {t.about.title}
             </h2>
-            <p className="text-lg text-muted-foreground text-pretty">{t.about.subtitle}</p>
+            <p className="text-lg text-muted-foreground text-pretty">
+              {t.about.subtitle}
+            </p>
           </motion.div>
 
           <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
@@ -310,8 +403,12 @@ export default function LandingPage() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <TrendingUp className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{t.about.mission.title}</h3>
-                <p className="text-muted-foreground text-pretty">{t.about.mission.description}</p>
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  {t.about.mission.title}
+                </h3>
+                <p className="text-muted-foreground text-pretty">
+                  {t.about.mission.description}
+                </p>
               </Card>
             </motion.div>
 
@@ -325,8 +422,12 @@ export default function LandingPage() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <Zap className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{t.about.story.title}</h3>
-                <p className="text-muted-foreground text-pretty">{t.about.story.description}</p>
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  {t.about.story.title}
+                </h3>
+                <p className="text-muted-foreground text-pretty">
+                  {t.about.story.description}
+                </p>
               </Card>
             </motion.div>
 
@@ -340,8 +441,12 @@ export default function LandingPage() {
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <Users className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{t.about.impact.title}</h3>
-                <p className="text-muted-foreground text-pretty">{t.about.impact.description}</p>
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  {t.about.impact.title}
+                </h3>
+                <p className="text-muted-foreground text-pretty">
+                  {t.about.impact.description}
+                </p>
               </Card>
             </motion.div>
           </div>
@@ -349,7 +454,10 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials Section - Added infinite carousel animation */}
-      <section id="testimonials" className="py-20 sm:py-32 bg-primary/5 overflow-hidden">
+      <section
+        id="testimonials"
+        className="py-20 sm:py-32 bg-primary/5 overflow-hidden"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -361,7 +469,9 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4 text-balance">
               {t.testimonials.title}
             </h2>
-            <p className="text-lg text-muted-foreground text-pretty">{t.testimonials.subtitle}</p>
+            <p className="text-lg text-muted-foreground text-pretty">
+              {t.testimonials.subtitle}
+            </p>
           </motion.div>
 
           <div className="relative">
@@ -373,39 +483,66 @@ export default function LandingPage() {
                     <div className="mb-4">
                       <div className="flex items-center gap-1 text-primary mb-4">
                         {[...Array(5)].map((_, i) => (
-                          <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                          <svg
+                            key={i}
+                            className="h-5 w-5 fill-current"
+                            viewBox="0 0 20 20"
+                          >
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                           </svg>
                         ))}
                       </div>
-                      <p className="text-muted-foreground mb-6 text-pretty">&ldquo;{driver.quote}&rdquo;</p>
+                      <p className="text-muted-foreground mb-6 text-pretty">
+                        &ldquo;{driver.quote}&rdquo;
+                      </p>
                     </div>
                     <div className="border-t border-border/50 pt-4">
-                      <p className="font-semibold text-foreground">{driver.name}</p>
-                      <p className="text-sm text-muted-foreground">{driver.role}</p>
-                      <p className="text-sm text-muted-foreground">{driver.location}</p>
+                      <p className="font-semibold text-foreground">
+                        {driver.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {driver.role}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {driver.location}
+                      </p>
                     </div>
                   </Card>
                 </div>
               ))}
               {/* Duplicate set for seamless loop */}
               {t.testimonials.drivers.map((driver, index) => (
-                <div key={`second-${index}`} className="flex-shrink-0 w-[350px]">
+                <div
+                  key={`second-${index}`}
+                  className="flex-shrink-0 w-[350px]"
+                >
                   <Card className="h-full p-6 border-border/50 bg-card/50 backdrop-blur-sm">
                     <div className="mb-4">
                       <div className="flex items-center gap-1 text-primary mb-4">
                         {[...Array(5)].map((_, i) => (
-                          <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                          <svg
+                            key={i}
+                            className="h-5 w-5 fill-current"
+                            viewBox="0 0 20 20"
+                          >
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                           </svg>
                         ))}
                       </div>
-                      <p className="text-muted-foreground mb-6 text-pretty">&ldquo;{driver.quote}&rdquo;</p>
+                      <p className="text-muted-foreground mb-6 text-pretty">
+                        &ldquo;{driver.quote}&rdquo;
+                      </p>
                     </div>
                     <div className="border-t border-border/50 pt-4">
-                      <p className="font-semibold text-foreground">{driver.name}</p>
-                      <p className="text-sm text-muted-foreground">{driver.role}</p>
-                      <p className="text-sm text-muted-foreground">{driver.location}</p>
+                      <p className="font-semibold text-foreground">
+                        {driver.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {driver.role}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {driver.location}
+                      </p>
                     </div>
                   </Card>
                 </div>
@@ -428,7 +565,9 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4 text-balance">
               {t.contact.title}
             </h2>
-            <p className="text-lg text-muted-foreground text-pretty">{t.contact.subtitle}</p>
+            <p className="text-lg text-muted-foreground text-pretty">
+              {t.contact.subtitle}
+            </p>
           </motion.div>
 
           <div className="grid gap-12 lg:grid-cols-2 max-w-6xl mx-auto">
@@ -439,9 +578,24 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
             >
               <Card className="p-8 border-border/50 bg-card/50 backdrop-blur-sm">
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  {/* Honeypot field - hidden from humans, visible to bots */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       {t.contact.form.name}
                     </label>
                     <input
@@ -452,7 +606,10 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       {t.contact.form.email}
                     </label>
                     <input
@@ -463,7 +620,10 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       {t.contact.form.phone}
                     </label>
                     <input
@@ -473,7 +633,10 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="company"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       {t.contact.form.company}
                     </label>
                     <input
@@ -483,7 +646,10 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
                       {t.contact.form.message}
                     </label>
                     <textarea
@@ -508,11 +674,18 @@ export default function LandingPage() {
               className="space-y-8"
             >
               <div>
-                <h3 className="text-2xl font-bold text-foreground mb-6">{t.contact.info.title}</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-6">
+                  {t.contact.info.title}
+                </h3>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -534,7 +707,12 @@ export default function LandingPage() {
 
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -545,7 +723,11 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="font-medium text-foreground">
-                        {language === "en" ? "Phone" : language === "uz" ? "Telefon" : "Телефон"}
+                        {language === "en"
+                          ? "Phone"
+                          : language === "uz"
+                          ? "Telefon"
+                          : "Телефон"}
                       </p>
                       <a
                         href={`tel:${t.contact.info.phone}`}
@@ -558,7 +740,12 @@ export default function LandingPage() {
 
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -575,22 +762,35 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="font-medium text-foreground">
-                        {language === "en" ? "Address" : language === "uz" ? "Manzil" : "Адрес"}
+                        {language === "en"
+                          ? "Address"
+                          : language === "uz"
+                          ? "Manzil"
+                          : "Адрес"}
                       </p>
-                      <p className="text-muted-foreground">{t.contact.info.address}</p>
+                      <p className="text-muted-foreground">
+                        {t.contact.info.address}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="h-5 w-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
                       </svg>
                     </div>
                     <div>
                       <p className="font-medium text-foreground">Telegram</p>
                       <a
-                        href={`https://t.me/${t.contact.info.telegram.replace("@", "")}`}
+                        href={`https://t.me/${t.contact.info.telegram.replace(
+                          "@",
+                          ""
+                        )}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-primary transition-colors"
@@ -612,21 +812,34 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <div className="text-xl font-bold">
-                <span className="text-foreground">JAHON</span> <span className="text-primary">YUKLARI</span>
+                <span className="text-foreground">JAHON</span>{" "}
+                <span className="text-primary">YUKLARI</span>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-              <a href="#about" className="hover:text-foreground transition-colors">
+              <a
+                href="#about"
+                className="hover:text-foreground transition-colors"
+              >
                 {t.footer.about}
               </a>
-              <a href="#privacy" className="hover:text-foreground transition-colors">
+              <a
+                href="#privacy"
+                className="hover:text-foreground transition-colors"
+              >
                 {t.footer.privacy}
               </a>
-              <a href="#contact" className="hover:text-foreground transition-colors">
+              <a
+                href="#contact"
+                className="hover:text-foreground transition-colors"
+              >
                 {t.footer.contact}
               </a>
-              <a href={`mailto:${t.footer.email}`} className="hover:text-foreground transition-colors">
+              <a
+                href={`mailto:${t.footer.email}`}
+                className="hover:text-foreground transition-colors"
+              >
                 {t.footer.email}
               </a>
             </div>
@@ -638,5 +851,5 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
